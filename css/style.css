@@ -1,0 +1,123 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+}
+html {
+	font-family: "Helvetica", "Arial", sans-serif;
+	font-size: 12px;
+}
+
+.alignL { text-align: left; }
+.alignR { text-align: right; }
+.alignC { text-align: center; }
+.alignJ { text-align: justify; }
+.floatL { float: left; }
+.floatR { float: right; }
+.clearfix { clear: both; }
+
+#menuArea, #topArea, #gridArea {
+	margin-bottom: 10px;
+	display: flow-root;
+}
+#menuArea > select {
+	font-size: 14px;
+}
+#gameArea {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+#timeDisplay, #mineDisplay {
+	font-size: 28px;
+	font-weight: bold;
+	border: 2px inset black;
+	background-color: white;
+	padding: 0px 5px;
+}
+#faceDisplay {
+	height: 32px;
+	margin: 0px 10px;
+	cursor: pointer;
+}
+#gridWrapper {
+	display: inline-block;
+	background-color: beige;
+	border: 1px solid #333;
+	padding: 10px;
+}
+.buttonImg {
+	width: calc(100% - 2px);
+}
+.gridRow {
+	white-space: nowrap;
+}
+.gridCell {
+	width: 24px;
+	height: 24px;
+	border: 2px outset;
+	background-color: darkgrey;
+	line-height: 0px;
+	vertical-align: top;
+}
+.gridCell.clicked {
+	border-style: inset;
+	background-color: lightgrey;
+}
+.gridCell.tripped {
+	background-color: orange;
+}
+.cellDanger, .cellFlag2 {
+	font-weight: bold;
+}
+
+.cellDanger.mines_1 { color: blue; }
+.cellDanger.mines_2 { color: green; }
+.cellDanger.mines_3 { color: red; }
+.cellDanger.mines_4 { color: purple; }
+.cellDanger.mines_5 { color: maroon; }
+.cellDanger.mines_6 { color: turquoise; }
+.cellDanger.mines_7 { color: black; }
+.cellDanger.mines_8 { color: grey; }
+
+#settingsArea > * {
+	width: 28px;
+	height: 28px;
+}
+#dialogueOverlay {
+	position: fixed;
+	top: 0px;
+	bottom: 0px;
+	width: 100%;
+	filter: opacity(80%);
+	background-color: grey;
+	z-index: 100;
+}
+#dialogueBox {
+	position: fixed;
+	left: 50%;
+	box-shadow: 0px 0px 5px #333;
+	background-color: white;
+	z-index: 101;
+}
+.dialogueTitle {
+	text-align: left;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 4px;
+	background-color: #ccc;
+}
+.dialogueCloseBtn {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	width: 24px;
+	height: 24px;
+	background-color: #333;
+	color: white;
+	border: none;
+}
+.dialogueContent {
+	margin-top: 10px;
+}

@@ -1,0 +1,16 @@
+@charset "UTF-8";
+
+#gridWrapper {
+    background: url('./background.jpg') no-repeat;
+    background-size: cover;
+}
+#timeDisplay, #mineDisplay {
+    filter: opacity(60%);
+    color: orangered;
+}
+#gridArea {
+    filter: opacity(80%);
+}
+#menuArea > select {
+	filter: opacity(80%);
+}

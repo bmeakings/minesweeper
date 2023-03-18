@@ -1,0 +1,141 @@
+<!DOCTYPE hmtl>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" ng-app="Minesweeper">
+	<head>
+		<meta charset="UTF-8" />
+		<title>Minesweeper</title>
+		<link rel="stylesheet" type="text/css" href="./css/style.css" />
+		<link id="themeStylesheet" rel="stylesheet" type="text/css" href="./themes/default/theme.css" />
+		<script type="application/javascript" src="./themes.js" charset="UTF-8"></script>
+		<script type="application/javascript" src="./js/angular.js" charset="UTF-8"></script>
+		<script type="application/javascript" src="./js/app.js" charset="UTF-8"></script>
+		<script type="application/javascript" src="./js/filters.js" charset="UTF-8"></script>
+		<script type="application/javascript" src="./controllers/game.js" charset="UTF-8"></script>
+	</head>
+	<body>
+		<div id="gameArea" class="alignC" ng-controller="GameCtrl">
+			<div id="gridWrapper">
+				<div id="menuArea">
+					<select
+						ng-model="currentDiff"
+						ng-options="key as val.name for (key, val) in gridPresets"
+						class="floatL"
+					></select>
+					<select
+						ng-model="currentTheme"
+						ng-options="key as val for (key, val) in themesList"
+						class="floatR"
+					></select>
+				</div>
+				<div id="topArea">
+					<div id="timeDisplay" class="floatL">{{ timeCount | counterDisplay }}</div>
+					<img
+						id="faceDisplay"
+						ng-src="./themes/{{ currentTheme + '/' + faceState }}.png"
+						ng-click="newGame()"
+						title="Start a new game"
+					/>
+					<div id="mineDisplay" class="floatR">{{ flagCount | counterDisplay }}</div>
+				</div>
+				<div id="gridArea">
+					<div ng-repeat="row in gridRows" class="gridRow">
+						<button
+							class="gridCell"
+							ng-repeat="cell in row"
+							ng-mousedown="cellPress($event, cell)"
+							ng-mouseup="cellClick($event, cell)"
+							ng-class="{'clicked': cell.clicked, 'tripped': cell.tripped}"
+							oncontextmenu="return false;"
+						>
+							<div ng-show="cell.danger" class="cellDanger mines_{{ cell.danger }}">{{ cell.danger }}</div>
+							<div ng-show="cell.flag == 1 && !showMines">&#x1F6A9;</div>
+							<div ng-show="cell.flag == 2 && !showMines" class="cellFlag2">?</div>
+							<img
+								ng-src="./themes/{{ currentTheme }}/bomb.png"
+								ng-show="cell.mined && showMines && !cell.tripped"
+								class="buttonImg"
+							/>
+							<img
+								src="./img/explode.svg"
+								ng-show="cell.tripped"
+								class="buttonImg"
+							/>
+						</button>
+					</div>
+				</div>
+				<div id="settingsArea">
+					<button
+						class="floatL"
+						title="Turn sound effects on or off"
+					>
+						<img
+							class="buttonImg"
+							ng-src="./img/sound-{{ (soundOn) ? 'on' : 'off' }}.svg"
+							ng-click="toggleSound()"
+						/>
+					</button>
+					<button
+						class="floatR"
+						title="About"
+					>
+						<img
+							class="buttonImg"
+							src="./img/help.svg"
+							ng-click="showAboutDlg()"
+						/>
+					</button>
+				</div>
+			</div>
+
+			<!-- dialogue overlay -->
+			<div
+				id="dialogueOverlay"
+				ng-show="showDialogue"
+				ng-click="dialogueOverlayClick()"
+			></div>
+
+			<!-- dialogue popup -->
+			<div
+				id="dialogueBox"
+				ng-show="showDialogue"
+				ng-style="{
+					'top': dlgPopup.top,
+					'width': dlgPopup.width,
+					'min-height': dlgPopup.height,
+					'margin-left': dlgPopup.left,
+				}"
+			>
+				<div class="dialogueHeading">
+					<div class="dialogueTitle">{{ dlgPopup.title }}</div>
+					<button
+						class="dialogueCloseBtn"
+						ng-hide="dlgPopup.noCloseBtn"
+						ng-click="closeDialogue()"
+					>&times;</button>
+				</div>
+				<div class="dialogueContent">
+					<div ng-bind-html="dlgPopup.template"></div>
+					<form ng-if="dlgFormFields.length > 0" ng-submit="dlgSubmit()">
+						<span
+							ng-repeat="field in dlgFormFields"
+							ng-switch="field.type"
+							class="{{ field.cssClass }}"
+						>
+							<button
+								ng-switch-when="button"
+								ng-click="field.click.fn(field.click.params)"
+								ng-bind-html="field.html"
+								type="button"
+							></button>
+							<input
+								ng-switch-default
+								ng-model="field.model"
+								type="{{ field.type }}"
+								placeholder="{{ field.placeholder }}"
+							/>
+						</span>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
