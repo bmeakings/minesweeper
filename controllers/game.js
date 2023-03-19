@@ -1,8 +1,8 @@
 'use strict';
 
 (angular
-    .module(appName)
-    .controller('GameCtrl', function($scope, $interval, $sce)
+	.module(appName)
+	.controller('GameCtrl', function($scope, $interval, $sce)
 	{
 		const savedDiff = localStorage.getItem('difficulty');
 		const savedTheme = localStorage.getItem('theme');
